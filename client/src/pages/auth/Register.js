@@ -3,8 +3,7 @@ import { useState } from "react";
 import Jumbotron from "../../components/cards/Jumbotron";
 import axios from "axios";
 import toast from "react-hot-toast";
-import {useAuth} from "../../context/auth";
-
+import { useAuth } from "../../context/auth";
 
 export default function Register() {
   //state
@@ -14,21 +13,25 @@ export default function Register() {
 
   //hook
   const [auth, setAuth] = useAuth();
-        
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try { 
-      const { data } = await axios.post(`${process.env.REACT_APP_API}/register`, {
-        name,
-        email,
-        password,
-      });
-      console.log(data)
+    try {
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_API}/register`,
+        {
+          name,
+          email,
+          password,
+        }
+      );
+      console.log(data);
 
-      if(data?.error) {
+      if (data?.error) {
         toast.error(data.error);
       } else {
-        setAuth({...auth, token: data.token, user: data.user});
+        localStorage.setItem("auth", JSON.stringify(data));
+        setAuth({ ...auth, token: data.token, user: data.user });
         toast.success("Registration successful");
       }
     } catch (error) {
@@ -44,18 +47,16 @@ export default function Register() {
       <div className="container mt-5">
         <div className="row">
           <div className="col-md-6 offset-md-3">
-          <form onSubmit={handleSubmit}>
-            
-          <input
-              type="text"
-              className="form-control mb-4 p-2"
-              placeholder="Enter your name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              autoFocus
-            />
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                className="form-control mb-4 p-2"
+                placeholder="Enter your name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                autoFocus
+              />
 
-            
               <input
                 type="email"
                 className="form-control mb-4 p-2"
