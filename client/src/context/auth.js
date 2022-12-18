@@ -8,6 +8,7 @@ const AuthProvider = ({ children}) => {
         token: ""
     });
 
+    //useEffect is to retain the data from auth which can be accessible by all component 
     useEffect(()=> {
         const data = localStorage.getItem("auth");
         if(data) {

@@ -1,4 +1,8 @@
 .active{ 
   text-decoration: underline;
-  text-decoration-thickness: 2px;
+  text-decoration-thickness: 2px ;
+}
+
+.pointer {
+  cursor: pointer;
 }
