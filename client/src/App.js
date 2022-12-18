@@ -25,7 +25,7 @@ export default  function App() {
     <Route path="/dashboard" element={<PrivateRoute />} >
 
    {/*You dont need to specify the path since the parent"privateRoute" is having it */}
-    <Route path="" element={<Dashboard />} />
+    <Route path="/" element={<Dashboard />} />
     </Route>
 
     </Routes>
