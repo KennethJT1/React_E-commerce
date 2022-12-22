@@ -1,28 +1,28 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 import { Loading } from "./Loading";
+import axios from "axios";
 
-export default function PrivateRoute(){
+export default function PrivateRoute() {
   //context
   const [auth, setAuth] = useAuth;
 
   //state
   const [ok, setOk] = useState(false);
 
-  useEffect(()=> {
-    const auchCheck = async()=> {
+  useEffect(() => {
+    const auchCheck = async () => {
       const { data } = await axios.get(`/auth-check`);
-      if(data.ok) {
+      if (data.ok) {
         setOk(true);
       } else {
-        setOk(false)
+        setOk(false);
       }
     };
-    auchCheck();
+
+    if (auth?.token) auchCheck();
   }, [auth?.token]);
-    
 
   // useEffect(() => {
   //   if (auth?.token) {
@@ -33,4 +33,4 @@ export default function PrivateRoute(){
   // }, [auth?.token]);
 
   return ok ? <Outlet /> : <Loading />;
-};
+}

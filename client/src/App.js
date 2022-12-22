@@ -12,26 +12,26 @@ import Dashboard from './pages/user/Dashboard'
 import PrivateRoute from "./components/routes/PrivateRoute";
 
 export default  function App() {
-  return (
-    <BrowserRouter>
+return (
+<BrowserRouter>
     <Menu />
     <Toaster />
     <Routes>
-    <Route path="/" element={<Home />} />
-    <Route path="/login" element={<Login />} />
-    <Route path="/register" element={<Register />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
-    {/*Dashboard route is being protected*/}
-    <Route path="/dashboard" element={<PrivateRoute />} >
+        
+        <Route path="/dashboard" element={<PrivateRoute />} >
 
-   {/*You dont need to specify the path since the parent"privateRoute" is having it */}
-    <Route path="/" element={<Dashboard />} />
-    </Route>
+       <Route path="" element={<Dashboard />} />
+        </Route>
 
     </Routes>
-    </BrowserRouter>
-  )
+</BrowserRouter>
+)
 }
 
-//
-// 
+
+//{/*Dashboard route is being protected*/}
+// {/*You dont need to specify the path since the parent"privateRoute" is having it */}

@@ -1,4 +1,4 @@
-import { Navigate, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 
 export default function Menu() {

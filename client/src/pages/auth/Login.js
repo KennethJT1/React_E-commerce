@@ -15,21 +15,21 @@ export default function Login() {
   //hook
   const [auth, setAuth] = useAuth();
   const navigate = useNavigate();
-        
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try { 
+    try {
       const { data } = await axios.post(`login`, {
         email,
         password,
       });
       console.log(data)
 
-      if(data?.error) {
+      if (data?.error) {
         toast.error(data.error);
       } else {
         localStorage.setItem('auth', JSON.stringify(data));
-        setAuth({...auth, token: data.token, user: data.user});
+        setAuth({ ...auth, token: data.token, user: data.user });
         toast.success("Login successful");
         navigate("/dashboard");
       }
