@@ -7,7 +7,6 @@ import { toast } from "react-hot-toast";
 import CategoryForm from "../../components/forms/CategoryForm";
 import { Modal } from "antd";
 
-
 export default function AdminCategory() {
   // context
   const [auth, setAuth] = useAuth();
@@ -57,7 +56,7 @@ export default function AdminCategory() {
       if (data?.error) {
         toast.error(data.error);
       } else {
-        toast.success(`"${data.name}" is updated`);
+        toast.success(`${data.name} is updated`);
         setSelected(null);
         setUpdatingName("");
         loadCategories();
@@ -76,7 +75,7 @@ export default function AdminCategory() {
       if (data?.error) {
         toast.error(data.error);
       } else {
-        toast.success(`"${data.name}" is deleted`);
+        toast.success(`${data.name} is deleted`);
         setSelected(null);
         loadCategories();
         setVisible(false);
