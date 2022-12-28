@@ -11,9 +11,9 @@ import AdminDasboard from "./pages/admin/Dasboard";
 import AdminCategory from "./pages/admin/Category";
 import AdminProduct from "./pages/admin/Product";
 import AdminProducts from "./pages/admin/Products";
+import AdminProductUpdate from "./pages/admin/ProductUpdate";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import AdminRoute from "./components/routes/AdminRoute";
-
 
 const PageNotFound = () => {
   return (
@@ -31,7 +31,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} /> 
+        <Route path="/register" element={<Register />} />
 
         <Route path="/dashboard" element={<PrivateRoute />}>
           <Route path="user" element={<Dashboard />} />
@@ -44,9 +44,13 @@ export default function App() {
           <Route path="admin/category" element={<AdminCategory />} />
           <Route path="admin/product" element={<AdminProduct />} />
           <Route path="admin/products" element={<AdminProducts />} />
+          <Route
+            path="admin/product/update/:slug"
+            element={<AdminProductUpdate />}
+          />
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
   );
-} 
+}

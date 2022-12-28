@@ -25,6 +25,7 @@ export default function AdminCategory() {
     try {
       const { data } = await axios.get("/categories");
       setCategories(data);
+      // console.log();
     } catch (err) {
       console.log(err);
     }

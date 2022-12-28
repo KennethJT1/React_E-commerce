@@ -9,7 +9,7 @@ import { auth, adminAuth } from '../middlewares/auth.js'
 
 
 router.post('/product', auth, adminAuth,formidable(), create);
-router.get('/product', list);
+router.get('/products', list);
 router.get('/product/:slug', read);
 // to get product with photo
 router.get('/product/photo/:productId', photo);

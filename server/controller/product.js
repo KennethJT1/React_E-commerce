@@ -14,22 +14,22 @@ export const create = async (req, res) => {
     //validation
     switch (true) {
       case !name.trim():
-        res.json({ error: "Name is required" });
+        return res.json({ error: "Name is required" });
 
       case !description:
-        res.json({ error: "Description is required" });
+        return res.json({ error: "Description is required" });
 
       case !price:
-        res.json({ error: "Price is required" });
+        return res.json({ error: "Price is required" });
 
       case !category:
-        res.json({ error: "Category is required" });
+        return res.json({ error: "Category is required" });
 
       case !quantity:
-        res.json({ error: "Quantity is required" });
+        return res.json({ error: "Quantity is required" });
 
       case !shipping:
-        res.json({ error: "Name is required" });
+        return res.json({ error: "Name is required" });
 
       //Don't want to make photo compulsory and if upload, it should not be more than 1megabyte
       case photo && photo.size > 1000000:
@@ -59,7 +59,8 @@ export const list = async (req, res) => {
       .select("-photo")
       .limit(12)
       .sort({ createdAt: -1 });
-    return res.json({Count: products.length,products});
+    return res.json({ Count: products.length, products });
+    // res.json(products);
   } catch (error) {
     console.log(error);
   }
@@ -109,49 +110,53 @@ export const remove = async (req, res) => {
 
 //Update a product
 export const update = async (req, res) => {
-    try {
-      // console.log(req.fields)
-      // console.log(req.files)
-      const { name, description, price, category, quantity, shipping } =
-        req.fields;
-      const { photo } = req.files;
-  
-      //validation
-      switch (true) {
-        case !name.trim():
-          res.json({ error: "Name is required" });
-  
-        case !description:
-          res.json({ error: "Description is required" });
-  
-        case !price:
-          res.json({ error: "Price is required" });
-  
-        case !category:
-          res.json({ error: "Category is required" });
-  
-        case !quantity:
-          res.json({ error: "Quantity is required" });
-  
-        case !shipping:
-          res.json({ error: "Name is required" });
-  
-        //Don't want to make photo compulsory and if upload, it should not be more than 1megabyte
-        case photo && photo.size > 1000000:
-          res.json({ error: "Image should not be more than 1 megabyte" });
-      }
-  
-      //update product
-      const product = await Product.findByIdAndUpdate(req.params.productId, {...req.fields, slug: slugify(name)}, {new:true});
-  
-      if (photo) {
-        product.photo.data = fs.readFileSync(photo.path);
-        product.photo.contentType = photo.type;
-      }
-  
-      await product.save();
-      return res.json(product);
-    } catch (error) {
-      res.status(400).json(error.message);
+  try {
+    // console.log(req.fields)
+    // console.log(req.files)
+    const { name, description, price, category, quantity, shipping } =
+      req.fields;
+    const { photo } = req.files;
+
+    //validation
+    switch (true) {
+      case !name.trim():
+        res.json({ error: "Name is required" });
+
+      case !description:
+        res.json({ error: "Description is required" });
+
+      case !price:
+        res.json({ error: "Price is required" });
+
+      case !category:
+        res.json({ error: "Category is required" });
+
+      case !quantity:
+        res.json({ error: "Quantity is required" });
+
+      case !shipping:
+        res.json({ error: "Name is required" });
+
+      //Don't want to make photo compulsory and if upload, it should not be more than 1megabyte
+      case photo && photo.size > 1000000:
+        res.json({ error: "Image should not be more than 1 megabyte" });
     }
-  };
+
+    //update product
+    const product = await Product.findByIdAndUpdate(
+      req.params.productId,
+      { ...req.fields, slug: slugify(name) },
+      { new: true }
+    );
+
+    if (photo) {
+      product.photo.data = fs.readFileSync(photo.path);
+      product.photo.contentType = photo.type;
+    }
+
+    await product.save();
+    return res.json(product);
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+};
