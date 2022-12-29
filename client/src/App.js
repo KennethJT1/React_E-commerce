@@ -1,3 +1,4 @@
+import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Menu from "./components/nav/Menu";
@@ -14,6 +15,7 @@ import AdminProducts from "./pages/admin/Products";
 import AdminProductUpdate from "./pages/admin/ProductUpdate";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import AdminRoute from "./components/routes/AdminRoute";
+import Shop from "./pages/Shop";
 
 const PageNotFound = () => {
   return (
@@ -30,6 +32,7 @@ export default function App() {
       <Toaster />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/shop" element={<Shop />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 

@@ -160,3 +160,12 @@ export const update = async (req, res) => {
     res.status(400).json(error.message);
   }
 };
+
+//filtered products
+export const filteredProducts = async(req, res) => {
+  try{
+    const {checked, radio} = req.body;
+  } catch(err){
+    console.log(err)
+  }
+};
