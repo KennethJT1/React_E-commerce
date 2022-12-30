@@ -21,6 +21,7 @@ mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("Database is connected to mongoDB...".blue.bold))
   .catch((err) => console.log("DB ERROR =>".red.bold, err.red.bold));
+  mongoose.set('strictQuery', true)
 
 //middlewares
 app.use(express.json());

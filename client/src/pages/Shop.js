@@ -12,8 +12,27 @@ export default function Shop() {
   const [radio, setRadio] = useState([]); // Radio
 
   useEffect(() => {
-    loadProducts();
+    if (!checked.length || !radio.length) loadProducts();
   }, []);
+
+  useEffect(() => {
+    if (checked.length || radio.length) loadFilteredProducts();
+  }, [checked, radio]);
+
+
+  const loadFilteredProducts = async () => {
+    try {
+      const { data } = await axios.post("/filtered-products", {
+        checked,
+        radio,
+      });
+
+      console.log("Filtered products=> ", data);
+      setProducts(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const loadProducts = async () => {
     try {
@@ -37,12 +56,12 @@ export default function Shop() {
     }
   };
 
-  const handleCheck = (value, id)=>{
-    let all = [...checked]
-    if(value){
-        all.push(id)
+  const handleCheck = (value, id) => {
+    let all = [...checked];
+    if (value) {
+      all.push(id);
     } else {
-        all = all.filter(c => c!== id)
+      all = all.filter((c) => c !== id);
     }
 
     setChecked(all);
@@ -51,7 +70,7 @@ export default function Shop() {
   return (
     <>
       <Jumbotron title="Hello World" />
-      <pre>{JSON.stringify({checked, radio}, null, 4)}</pre>
+      <pre>{JSON.stringify({ checked, radio }, null, 4)}</pre>
 
       <div className="container-fluid">
         <div className="row">
@@ -74,15 +93,17 @@ export default function Shop() {
               Filter by Price
             </h2>
             <div className="row p-5">
-             <Radio.Group onChange={e => setRadio(e.target.value)}>
+              <Radio.Group onChange={(e) => setRadio(e.target.value)}>
                 {prices.map((p) => (
-                    <div key={p._id} style={{ marginLeft: "8px"}}>
-                        <Radio value={p.array}>
-                            {p.name}
-                        </Radio>
-                    </div>
+                  <div key={p._id} style={{ marginLeft: "8px" }}>
+                    <Radio value={p.array}>{p.name}</Radio>
+                  </div>
                 ))}
-             </Radio.Group>
+              </Radio.Group>
+            </div>
+
+            <div className="p-5 pt-0">
+              <button className="btn btn-outline-secondary col-12" onClick={()=> window.location.reload()}>Reset</button>
             </div>
           </div>
 
@@ -90,7 +111,7 @@ export default function Shop() {
             <h2 className="p-3 mt-2 mb-2 h4 bg-light text-center">
               {products?.length} products
             </h2>
-            <div className="row">
+            <div className="row" style={{ height: "100vh", overflow: "scroll"}}>
               {products?.map((p) => (
                 <div className="col-md-4" key={p?._id}>
                   <ProductCard p={p} />
