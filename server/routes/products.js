@@ -8,6 +8,9 @@ import {
   remove,
   update,
   filteredProducts,
+  productsCount,
+  listProducts,
+  productsSearch
 } from "../controller/product.js";
 
 const router = express.Router();
@@ -23,6 +26,10 @@ router.get("/product/photo/:productId", photo);
 router.delete("/product/:productId", auth, adminAuth, remove);
 router.put("/product/:productId", auth, adminAuth, formidable(), update);
 
+//use frontend to create these
 router.post("/filtered-products", filteredProducts);
+router.get("/products-count", productsCount);
+router.get("/list-products/:page", listProducts);
+router.get("/products/search/:keyword", productsSearch);
 
 export default router;

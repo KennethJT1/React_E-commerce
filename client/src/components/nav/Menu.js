@@ -1,5 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/auth";
+import Search from "../forms/Search";
 
 export default function Menu() {
   //hook
@@ -26,6 +27,8 @@ export default function Menu() {
             SHOP
           </NavLink>
         </li>
+
+        <Search />
 
         {!auth?.user ? (
           <>
