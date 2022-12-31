@@ -13,10 +13,13 @@ import AdminCategory from "./pages/admin/Category";
 import AdminProduct from "./pages/admin/Product";
 import AdminProducts from "./pages/admin/Products";
 import AdminProductUpdate from "./pages/admin/ProductUpdate";
+import ProductView from "./pages/ProductView";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import AdminRoute from "./components/routes/AdminRoute";
 import Shop from "./pages/Shop";
 import Search from "./pages/Search";
+import CategoryList from "./pages/CategoryList";
+import CategoryView from "./pages/CategoryView";
 
 const PageNotFound = () => {
   return (
@@ -34,7 +37,10 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/shop" element={<Shop />} />
+        <Route path="/categories" element={<CategoryList />} />
+        <Route path="/category/:slug" element={<CategoryView />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/product/:slug" element={<ProductView />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 

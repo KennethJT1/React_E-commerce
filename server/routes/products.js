@@ -10,7 +10,8 @@ import {
   filteredProducts,
   productsCount,
   listProducts,
-  productsSearch
+  productsSearch,
+  relatedProducts
 } from "../controller/product.js";
 
 const router = express.Router();
@@ -31,5 +32,8 @@ router.post("/filtered-products", filteredProducts);
 router.get("/products-count", productsCount);
 router.get("/list-products/:page", listProducts);
 router.get("/products/search/:keyword", productsSearch);
+
+//the product id is needed so that it won't be shown on related product
+router.get("/related-products/:productId/:categoryId", relatedProducts);
 
 export default router;

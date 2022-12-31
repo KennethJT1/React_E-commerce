@@ -211,15 +211,32 @@ export const productsSearch = async (req, res) => {
     const { keyword } = req.params;
     const results = await Product.find({
       $or: [
-
-        { name: {$regex: keyword, $options: "i"} },
-        { description: {$regex: keyword, $options: "i"} },
-      ]
-    })
-     .select("-photo")
+        { name: { $regex: keyword, $options: "i" } },
+        { description: { $regex: keyword, $options: "i" } },
+      ],
+    }).select("-photo");
 
     return res.json(results);
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const relatedProducts = async (req, res) => {
+  try {
+    const { productId, categoryId } = req.params;
+
+    const related = await Product.find({
+      category: categoryId,
+      //to remove the productviewed from related products
+      _id: { $ne: productId },
+    })
+      .select("-photo")
+      .populate("category")
+      .limit(3);
+
+      return res.json(related);
+  } catch (err) {
+    console.log(err);
   }
 };

@@ -14,7 +14,7 @@ const productSchema = new Schema({
         lowercase: true
     },
     description: {
-        type: String,
+        type: {},
         required: true,
         maxlength: 2000
     },
