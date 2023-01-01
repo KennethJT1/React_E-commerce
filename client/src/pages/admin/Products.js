@@ -30,7 +30,7 @@ export default function AdminProducts() {
     <>
       <Jumbotron
         title={`Hello ${auth?.user?.name}`}
-        subTitle="Admin Dashboard"
+        subtitle="Admin Dashboard"
       />
 
       <div className="container-fluid">

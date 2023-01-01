@@ -15,6 +15,7 @@ export default function Login() {
   //hook
   const [auth, setAuth] = useAuth(); 
   const navigate = useNavigate();
+  //to redirect the user to the intended page
   const location = useLocation();
 
   const handleSubmit = async (e) => {
@@ -32,6 +33,7 @@ export default function Login() {
         localStorage.setItem('auth', JSON.stringify(data));
         setAuth({ ...auth, token: data.token, user: data.user });
         toast.success("Login successful");
+        //the intended page is checked firdt before going to the dashboard page
         navigate(location.state || 
           `/dashboard/${data?.user?.role === 1 ? "admin" : "user "}`);
       }

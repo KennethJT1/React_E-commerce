@@ -102,7 +102,7 @@ export default function AdminProductUpdate() {
     <>
       <Jumbotron
         title={`Hello ${auth?.user?.name}`}
-        subTitle="Admin Dashboard"
+        subtitle="Admin Dashboard"
       />
 
       <div className="container-fluid">

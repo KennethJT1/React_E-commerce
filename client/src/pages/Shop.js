@@ -70,7 +70,6 @@ export default function Shop() {
   return (
     <>
       <Jumbotron title="Hello World" />
-      <pre>{JSON.stringify({ checked, radio }, null, 4)}</pre>
 
       <div className="container-fluid">
         <div className="row">

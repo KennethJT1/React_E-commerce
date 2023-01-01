@@ -3,10 +3,12 @@ import { useAuth } from "../../context/auth";
 import Search from "../forms/Search";
 import useCategory from "../../hooks/useCategory";
 import { Badge } from "antd";
+import { useCart } from "../../context/cart";
 
 export default function Menu() {
   //context
   const [auth, setAuth] = useAuth();
+  const [cart, setCart] = useCart();
   //hook
   const categories = useCategory();
   const navigate = useNavigate();
@@ -19,7 +21,7 @@ export default function Menu() {
 
   return (
     <>
-      <ul className="nav d-flex justify-content-between shadow-sm mb-2">
+      <ul className="nav d-flex justify-content-between shadow-sm mb-2 sticky-top bg-light">
         <li className="nav-item">
           <NavLink className="nav-link" aria-current="page" to="/">
             HOME
@@ -64,7 +66,7 @@ export default function Menu() {
 
         <li className="nav-item mt-1">
           <Badge
-            // count={cart?.length >= 1 ? cart.length : 0}
+            count={cart?.length >= 1 ? cart.length : 0}
             offset={[-5, 11]}
             showZero={true}
           >

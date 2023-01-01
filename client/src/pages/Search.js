@@ -9,7 +9,7 @@ export default function Search() {
     <>
       <Jumbotron
         title="Search results"
-        subTitle={
+        subtitle={
           values?.results?.length < 1
             ? "No products found"
             : `Found ${values?.results?.length} products`

@@ -30,7 +30,7 @@ export default function CategoryView() {
     <>
       <Jumbotron
         title={category?.name}
-        subTitle={`${products?.length} products found in "${category?.name}"`}
+        subtitle={`${products?.length} products found in ${category?.name}`}
       />
 
       <div className="container-fluid">
