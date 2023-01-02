@@ -1,6 +1,21 @@
 import Product from "../models/product.js";
 import fs from "fs";
 import slugify from "slugify";
+import braintree from "braintree";
+import dotenv from "dotenv";
+import Order from "../models/order.js";
+import sgMail from "@sendgrid/mail";
+
+dotenv.config();
+
+sgMail.setApiKey(process.env.SENDGRID_KEY);
+
+const gateway = new braintree.BraintreeGateway({
+  environment: braintree.Environment.Sandbox,
+  merchantId: process.env.BRAINTREE_MERCHANT_ID,
+  publicKey: process.env.BRAINTREE_PUBLIC_KEY,
+  privateKey: process.env.BRAINTREE_PRIVATE_KEY,
+});
 
 //Crete product
 export const create = async (req, res) => {
@@ -235,7 +250,116 @@ export const relatedProducts = async (req, res) => {
       .populate("category")
       .limit(3);
 
-      return res.json(related);
+    return res.json(related);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getToken = async (req, res) => {
+  try {
+    gateway.clientToken.generate({}, function (err, response) {
+      if (err) {
+        return res.status(500).send(err);
+      } else {
+        return res.send(response);
+      }
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const procesPayment = async (req, res) => {
+  try {
+    // console.log(req.body);
+    const { nonce, cart } = req.body;
+
+    let total = 0;
+    cart.map((i) => {
+      total += i.price;
+    });
+    // console.log("total => ", total);
+
+    let newTransaction = gateway.transaction.sale(
+      {
+        amount: total,
+        paymentMethodNonce: nonce,
+        options: {
+          submitForSettlement: true,
+        },
+      },
+      function (error, result) {
+        if (result) {
+          // res.send(result);
+          // create order
+          const order = new Order({
+            products: cart,
+            payment: result,
+            buyer: req.user._id,
+          }).save();
+          // decrement quantity
+          decrementQuantity(cart);
+
+          res.json({ ok: true });
+        } else {
+          res.status(500).send(error);
+        }
+      }
+    );
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const decrementQuantity = async (cart) => {
+  try {
+    // build mongodb query
+    const bulkOps = cart.map((item) => {
+      return {
+        updateOne: {
+          filter: { _id: item._id },
+          update: { $inc: { quantity: -0, sold: +1 } },
+        },
+      };
+    });
+
+    const updated = await Product.bulkWrite(bulkOps, {});
+    console.log("blk updated", updated);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const orderStatus = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    const { status } = req.body;
+    const order = await Order.findByIdAndUpdate(
+      orderId,
+      { status },
+      { new: true }
+    ).populate("buyer", "email name");
+    // send email
+
+    // prepare email
+    const emailData = {
+      from: process.env.EMAIL_FROM,
+      to: order.buyer.email,
+      subject: "Order status",
+      html: `
+        <h1>Hi ${order.buyer.name}, Your order's status is: <span style="color:cyan;">${order.status}</span></h1>
+        <p>Visit <a href="${process.env.CLIENT_URL}/dashboard/user/orders">your dashboard</a> for more details</p>
+      `,
+    };
+
+    try {
+      await sgMail.send(emailData);
+    } catch (err) {
+      console.log(err);
+    }
+
+    res.json(order);
   } catch (err) {
     console.log(err);
   }

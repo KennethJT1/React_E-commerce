@@ -4,6 +4,8 @@ import {
   login,
   secret,
   updateProfile,
+  getOrders,
+  allOrders
 } from "../controller/authController.js";
 
 const router = express.Router();
@@ -26,5 +28,9 @@ router.put("/profile", auth, updateProfile);
 
 //testing
 router.get("/secret", auth, adminAuth, secret);
+
+//orders
+router.get("/orders", auth, getOrders);
+router.get("/all-orders" ,auth, adminAuth, allOrders);
 
 export default router;

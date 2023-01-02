@@ -11,7 +11,10 @@ import {
   productsCount,
   listProducts,
   productsSearch,
-  relatedProducts
+  relatedProducts,
+  getToken,
+  procesPayment,
+  orderStatus
 } from "../controller/product.js";
 
 const router = express.Router();
@@ -35,5 +38,9 @@ router.get("/products/search/:keyword", productsSearch);
 
 //the product id is needed so that it won't be shown on related product
 router.get("/related-products/:productId/:categoryId", relatedProducts);
+
+router.get("/braintree/token", getToken);
+router.post("/braintree/payment",auth, procesPayment);
+router.put("/order-status/:orderId", auth, adminAuth, orderStatus);
 
 export default router;

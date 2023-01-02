@@ -50,7 +50,7 @@ export default function UserProfile() {
 
   return (
     <>
-      <Jumbotron title={`Hello ${auth?.user?.name}`} subTitle="Dashboard" />
+      <Jumbotron title={`Hello ${auth?.user?.name}`} subtitle="Dashboard" />
 
       <div className="container-fluid">
         <div className="row">
