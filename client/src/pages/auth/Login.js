@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import Jumbotron from "../../components/cards/Jumbotron";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -13,7 +12,7 @@ export default function Login() {
   const [password, setPassword] = useState("qqqqqq");
 
   //hook
-  const [auth, setAuth] = useAuth(); 
+  const [auth, setAuth] = useAuth();
   const navigate = useNavigate();
   //to redirect the user to the intended page
   const location = useLocation();
@@ -25,17 +24,19 @@ export default function Login() {
         email,
         password,
       });
-      console.log(data)
+      // console.log(data)
 
       if (data?.error) {
         toast.error(data.error);
       } else {
-        localStorage.setItem('auth', JSON.stringify(data));
+        localStorage.setItem("auth", JSON.stringify(data));
         setAuth({ ...auth, token: data.token, user: data.user });
         toast.success("Login successful");
         //the intended page is checked firdt before going to the dashboard page
-        navigate(location.state || 
-          `/dashboard/${data?.user?.role === 1 ? "admin" : "user "}`);
+        navigate(
+          location.state ||
+            `/dashboard/${data?.user?.role === 1 ? "admin" : "user "}`
+        );
       }
     } catch (error) {
       console.log(error);
